@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  # MySQL database service
+  mysql:
+    image: mysql:latest
+    container_name: mysqldb
+    environment:
+#      DATABASE_HOST: docker-mysql
+#      DATABASE_PORT: 3306
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: qp_test1
+      MYSQL_USER: sa
+      MYSQL_PASSWORD: 1234
+    ports:
+      - "3306:3306"
+    networks:
+      - backend
+
+  # Spring Boot application service
+  springboot-app:
+    image: qpassessment:latest
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/qa_db
+      SPRING_DATASOURCE_USERNAME: sa
+      SPRING_DATASOURCE_PASSWORD: 1234
+    ports:
+      - "8087:8087"
+    networks:
+      - backend
+
+networks:
+  backend:
