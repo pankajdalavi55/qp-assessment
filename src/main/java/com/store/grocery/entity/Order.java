@@ -3,10 +3,10 @@ package com.store.grocery.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
@@ -28,5 +28,7 @@ public class Order {
     @Column(name = "total_price")
     private double totalPrice;
 
-
+    public Order(){
+        this.orderItems = new ArrayList<>();
+    }
 }
