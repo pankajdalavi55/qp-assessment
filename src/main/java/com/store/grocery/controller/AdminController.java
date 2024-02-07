@@ -19,7 +19,7 @@ public class AdminController {
     public AdminController(AdminService adminService) {
         this.adminService = adminService;
     }
-    
+
     @PostMapping("/add-grocery-item")
     public ResponseEntity<Object> addGroceryItem(@RequestBody List<GroceryItem> groceryItem) {
         try {

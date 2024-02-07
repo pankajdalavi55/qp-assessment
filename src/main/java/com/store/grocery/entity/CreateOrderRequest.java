@@ -13,6 +13,7 @@ public class CreateOrderRequest {
 
     private Long orderId;
     private Long userId;
+    // Grocery Item id with Quantity
     private Map<Long, Double>  itemWithQuantity;
 
 }

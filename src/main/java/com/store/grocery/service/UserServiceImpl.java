@@ -10,7 +10,6 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,7 +50,6 @@ public class UserServiceImpl implements UserService {
                     .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
             Order order = new Order();
-            order.setOrderItems(new ArrayList<>());
             order.setUser(user);
 
             double totalPrice = 0;
@@ -60,6 +58,7 @@ public class UserServiceImpl implements UserService {
                     ? OrderRequest.getItemWithQuantity()
                     : new HashMap<>();
             orderRepository.save(order);
+
             for (Map.Entry<Long, Double> map : itemWithQty.entrySet()) {
 
                 Long itemId = map.getKey();

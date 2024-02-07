@@ -1,6 +1,11 @@
 package com.store.grocery.response;
 
-public class ErrorResponse {
+import lombok.Data;
+
+import java.io.Serializable;
+
+@Data
+public class ErrorResponse implements Serializable {
     private boolean success;
     private String errorMessage;
 
