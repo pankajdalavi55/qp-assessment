@@ -2,6 +2,7 @@ package com.store.grocery.controller;
 
 import com.store.grocery.entity.GroceryItem;
 import com.store.grocery.exception.ApiException;
+import com.store.grocery.response.APIResponse;
 import com.store.grocery.response.ErrorResponse;
 import com.store.grocery.response.SuccessResponse;
 import com.store.grocery.service.AdminService;
@@ -21,7 +22,7 @@ public class AdminController {
     }
 
     @PostMapping("/add-grocery-item")
-    public ResponseEntity<Object> addGroceryItem(@RequestBody List<GroceryItem> groceryItem) {
+    public ResponseEntity<APIResponse> addGroceryItem(@RequestBody List<GroceryItem> groceryItem) {
         try {
             List<GroceryItem> addedItems = adminService.addGroceryItem(groceryItem);
             SuccessResponse<List<GroceryItem>> successResponse = new SuccessResponse<>(true, "Grocery item added successfully", addedItems);
@@ -33,7 +34,7 @@ public class AdminController {
     }
 
     @GetMapping("/view-grocery-items")
-    public ResponseEntity<Object> viewGroceryItems() {
+    public ResponseEntity<APIResponse> viewGroceryItems() {
         try {
             List<GroceryItem> groceryItems = adminService.fetchAllGroceryItems();
             SuccessResponse<List<GroceryItem>> successResponse = new SuccessResponse<>(true, "Successfully fetched grocery items", groceryItems);
@@ -45,7 +46,7 @@ public class AdminController {
     }
 
     @DeleteMapping("/remove-grocery-item/{itemId}")
-    public ResponseEntity<Object> removeGroceryItem(@PathVariable Long itemId) {
+    public ResponseEntity<APIResponse> removeGroceryItem(@PathVariable Long itemId) {
         try {
             adminService.removeGroceryItem(itemId);
             SuccessResponse<String> successResponse = new SuccessResponse<>(true, "Grocery item removed successfully", "Item removed");
@@ -57,7 +58,7 @@ public class AdminController {
     }
 
     @PutMapping("/update-grocery-item/{itemId}")
-    public ResponseEntity<Object> updateGroceryItem(@PathVariable Long itemId, @RequestBody GroceryItem updatedItem) {
+    public ResponseEntity<APIResponse> updateGroceryItem(@PathVariable Long itemId, @RequestBody GroceryItem updatedItem) {
         try {
             GroceryItem updatedGroceryItem = adminService.updateGroceryItem(itemId, updatedItem);
             SuccessResponse<GroceryItem> successResponse = new SuccessResponse<>(true, "Grocery item updated successfully", updatedGroceryItem);
@@ -69,7 +70,7 @@ public class AdminController {
     }
 
     @PatchMapping("/manage-inventory/{itemId}/{quantity}")
-    public ResponseEntity<Object> manageInventory(@PathVariable Long itemId, @PathVariable double quantity) {
+    public ResponseEntity<APIResponse> manageInventory(@PathVariable Long itemId, @PathVariable double quantity) {
         try {
             adminService.manageInventory(itemId, quantity);
             SuccessResponse<String> successResponse = new SuccessResponse<>(true, "Inventory managed successfully", "Inventory managed");

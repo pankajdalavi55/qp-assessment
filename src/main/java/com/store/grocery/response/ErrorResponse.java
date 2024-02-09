@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class ErrorResponse implements Serializable {
+public class ErrorResponse implements Serializable, APIResponse {
     private boolean success;
     private String errorMessage;
 
