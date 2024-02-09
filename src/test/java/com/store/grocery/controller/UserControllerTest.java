@@ -4,6 +4,7 @@ import com.store.grocery.entity.CreateOrderRequest;
 import com.store.grocery.entity.GroceryItem;
 import com.store.grocery.entity.UnitOfMeasurement;
 import com.store.grocery.exception.ApiException;
+import com.store.grocery.response.APIResponse;
 import com.store.grocery.response.ErrorResponse;
 import com.store.grocery.response.SuccessResponse;
 import com.store.grocery.service.UserService;
@@ -43,7 +44,7 @@ public class UserControllerTest {
         Mockito.when(userService.viewAvailableGroceryItems()).thenReturn(mockGroceryAvailableItems);
 
         // Call controller method
-        ResponseEntity<Object> response = userController.viewAvailableGroceryItems();
+        ResponseEntity<APIResponse> response = userController.viewAvailableGroceryItems();
 
         // Verify
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -60,7 +61,7 @@ public class UserControllerTest {
         CreateOrderRequest request = new CreateOrderRequest();
 
         // Call controller method
-        ResponseEntity<Object> response = userController.createOrder(request);
+        ResponseEntity<APIResponse> response = userController.createOrder(request);
 
         // Verify
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -77,7 +78,7 @@ public class UserControllerTest {
         when(userService.viewAvailableGroceryItems()).thenThrow(new ApiException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR));
 
         // Call controller method
-        ResponseEntity<Object> response = userController.viewAvailableGroceryItems();
+        ResponseEntity<APIResponse> response = userController.viewAvailableGroceryItems();
 
         // Verify
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
@@ -96,7 +97,7 @@ public class UserControllerTest {
         doThrow(new ApiException("Bad Request", HttpStatus.BAD_REQUEST)).when(userService).createOrder(request);
 
         // Call controller method
-        ResponseEntity<Object> response = userController.createOrder(request);
+        ResponseEntity<APIResponse> response = userController.createOrder(request);
 
         // Verify
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());

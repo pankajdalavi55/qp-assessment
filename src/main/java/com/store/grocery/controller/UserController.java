@@ -3,6 +3,7 @@ package com.store.grocery.controller;
 import com.store.grocery.entity.CreateOrderRequest;
 import com.store.grocery.entity.GroceryItem;
 import com.store.grocery.exception.ApiException;
+import com.store.grocery.response.APIResponse;
 import com.store.grocery.response.ErrorResponse;
 import com.store.grocery.response.SuccessResponse;
 import com.store.grocery.service.UserService;
@@ -24,7 +25,7 @@ public class UserController {
     }
 
     @GetMapping("/view-available-grocery-items")
-    public ResponseEntity<Object> viewAvailableGroceryItems() {
+    public ResponseEntity<APIResponse> viewAvailableGroceryItems() {
         try {
             List<GroceryItem> availableItems = userService.viewAvailableGroceryItems();
             SuccessResponse<List<GroceryItem>> successResponse = new SuccessResponse<>(true, "Successfully fetched available grocery items", availableItems);
@@ -36,7 +37,7 @@ public class UserController {
     }
 
     @PostMapping("/create-order")
-    public ResponseEntity<Object> createOrder(@RequestBody CreateOrderRequest createOrderRequest) {
+    public ResponseEntity<APIResponse> createOrder(@RequestBody CreateOrderRequest createOrderRequest) {
         System.out.println("Input createOrderRequest "+ createOrderRequest);
         try {
             userService.createOrder(createOrderRequest);

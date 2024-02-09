@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.store.grocery.entity.GroceryItem;
 import com.store.grocery.entity.UnitOfMeasurement;
 import com.store.grocery.exception.ApiException;
+import com.store.grocery.response.APIResponse;
 import com.store.grocery.response.ErrorResponse;
 import com.store.grocery.response.SuccessResponse;
 import com.store.grocery.service.AdminService;
@@ -45,7 +46,7 @@ class AdminControllerTest {
         List<GroceryItem> inputItems = Collections.singletonList(new GroceryItem());
         when(adminService.addGroceryItem(inputItems)).thenReturn(inputItems);
 
-        ResponseEntity<Object> response = adminController.addGroceryItem(inputItems);
+        ResponseEntity<APIResponse> response = adminController.addGroceryItem(inputItems);
 
         SuccessResponse<List<GroceryItem>> expectedResponse = new SuccessResponse<>(true, "Grocery item added successfully", inputItems);
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -58,7 +59,7 @@ class AdminControllerTest {
         ApiException apiException = new ApiException("Invalid input", HttpStatus.BAD_REQUEST);
         when(adminService.addGroceryItem(inputItems)).thenThrow(apiException);
 
-        ResponseEntity<Object> response = adminController.addGroceryItem(inputItems);
+        ResponseEntity<APIResponse> response = adminController.addGroceryItem(inputItems);
 
         ErrorResponse expectedResponse = new ErrorResponse(false, "Invalid input");
         assertEquals(apiException.getStatus(), response.getStatusCode());
@@ -77,7 +78,7 @@ class AdminControllerTest {
         when(adminService.fetchAllGroceryItems()).thenReturn(mockGroceryItems);
 
         // Call the method under test
-        ResponseEntity<Object> responseEntity = adminController.viewGroceryItems();
+        ResponseEntity<APIResponse> responseEntity = adminController.viewGroceryItems();
 
         // Verify the response
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
@@ -100,7 +101,7 @@ class AdminControllerTest {
         when(adminService.fetchAllGroceryItems()).thenThrow(mockApiException);
 
         // Call the method under test
-        ResponseEntity<Object> responseEntity = adminController.viewGroceryItems();
+        ResponseEntity<APIResponse> responseEntity = adminController.viewGroceryItems();
 
         // Verify the response
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
@@ -119,7 +120,7 @@ class AdminControllerTest {
         Long itemId = 123L;
 
         // Call the method under test
-        ResponseEntity<Object> responseEntity = adminController.removeGroceryItem(itemId);
+        ResponseEntity<APIResponse> responseEntity = adminController.removeGroceryItem(itemId);
 
         // Verify the response
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
@@ -143,11 +144,11 @@ class AdminControllerTest {
         doThrow(mockApiException).when(adminService).removeGroceryItem(itemId);
 
         // Call the method under test
-        ResponseEntity<Object> responseEntity = adminController.removeGroceryItem(itemId);
+        ResponseEntity<APIResponse> responseEntity = adminController.removeGroceryItem(itemId);
 
         // Verify the response
         assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
-        assertInstanceOf(ErrorResponse.class,responseEntity.getBody());
+        assertInstanceOf(ErrorResponse.class, responseEntity.getBody());
         ErrorResponse errorResponse = (ErrorResponse) responseEntity.getBody();
         assertFalse(errorResponse.isSuccess());
         assertEquals("Item not found", errorResponse.getErrorMessage());
@@ -166,7 +167,7 @@ class AdminControllerTest {
         when(adminService.updateGroceryItem(itemId, updatedItem)).thenReturn(updatedItem);
 
         // Call the method under test
-        ResponseEntity<Object> responseEntity = adminController.updateGroceryItem(itemId, updatedItem);
+        ResponseEntity<APIResponse> responseEntity = adminController.updateGroceryItem(itemId, updatedItem);
 
         // Verify the response
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
@@ -191,7 +192,7 @@ class AdminControllerTest {
         doThrow(mockApiException).when(adminService).updateGroceryItem(itemId, updatedItem);
 
         // Call the method under test
-        ResponseEntity<Object> responseEntity = adminController.updateGroceryItem(itemId, updatedItem);
+        ResponseEntity<APIResponse> responseEntity = adminController.updateGroceryItem(itemId, updatedItem);
 
         // Verify the response
         assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
@@ -211,7 +212,7 @@ class AdminControllerTest {
         double quantity = 50.0;
 
         // Call the method under test
-        ResponseEntity<Object> responseEntity = adminController.manageInventory(itemId, quantity);
+        ResponseEntity<APIResponse> responseEntity = adminController.manageInventory(itemId, quantity);
 
         // Verify the response
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
@@ -236,7 +237,7 @@ class AdminControllerTest {
         doThrow(mockApiException).when(adminService).manageInventory(itemId, quantity);
 
         // Call the method under test
-        ResponseEntity<Object> responseEntity = adminController.manageInventory(itemId, quantity);
+        ResponseEntity<APIResponse> responseEntity = adminController.manageInventory(itemId, quantity);
 
         // Verify the response
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
